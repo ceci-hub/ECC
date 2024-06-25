@@ -8,6 +8,10 @@
             stroke: #999;
             stroke-opacity: 0.6;
         }
+        .link.highlighted {
+            stroke: red; /* Change color of highlighted links */
+            stroke-width: 3px; /* Increase width of highlighted links */
+        }
         .node circle {
             stroke: #fff;
             stroke-width: 1.5px;
@@ -50,8 +54,9 @@
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
-                    .on("end", dragended));
-            
+                    .on("end", dragended))
+                .on("click", click);
+
             // Append circle to each node
             node.append("circle")
                 .attr("r", 5); // Set radius of the circle
@@ -61,7 +66,7 @@
                 .attr("dy", -10) // Adjust the position of the text relative to the circle
                 .attr("text-anchor", "middle") // Center the text horizontally
                 .text(d => d.label); // Set the text content to the node label
-             
+            
             node.append("title")
                 .text(d => d.label);
 
@@ -74,7 +79,8 @@
 
                node
                    .attr("transform", d => `translate(${d.x},${d.y})`); 
-    });
+            });
+
             function dragstarted(event, d) {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 d.fx = d.x;
@@ -90,6 +96,13 @@
                 if (!event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
+            }
+
+            function click(event, d) {
+                // Highlight clicked node's links
+                link.classed("highlighted", false); // Reset all links
+                link.filter(l => l.source === d || l.target === d)
+                    .classed("highlighted", true); // Highlight links connected to the clicked node
             }
         });
     </script>
