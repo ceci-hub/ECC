@@ -52,7 +52,18 @@
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));
+            
+             node.append("circle")
+                 .attr("r", 5)
+                 .attr("fill", "steelblue")
+                 .attr("stroke", "#fff")
+                 .attr("stroke-width", 1.5);
 
+            node.append("text")
+                .attr("dy", -10) 
+                .attr("text-anchor", "middle") 
+                .text(d => d.id);   
+            
             node.append("title")
                 .text(d => d.id);
 
@@ -63,11 +74,9 @@
                     .attr("x2", d => d.target.x)
                     .attr("y2", d => d.target.y);
 
-                node
-                    .attr("cx", d => d.x)
-                    .attr("cy", d => d.y);
-            });
-
+               node
+                   .attr("transform", d => `translate(${d.x},${d.y})`); 
+    });
             function dragstarted(event, d) {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 d.fx = d.x;
