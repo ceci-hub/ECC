@@ -43,7 +43,8 @@
                 .selectAll("line")
                 .data(graph.links)
                 .enter().append("line")
-                .attr("class", "link");
+                .attr("class", "link")
+                .style("stroke-width", d => d.weight);
 
             const node = svg.append("g")
                 .attr("class", "nodes")
