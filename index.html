@@ -43,27 +43,25 @@
 
             const node = svg.append("g")
                 .attr("class", "nodes")
-                .selectAll("circle")
+                .selectAll(".node") 
                 .data(graph.nodes)
-                .enter().append("circle")
-                .attr("r", 5)
-                .attr("class", "node")
+                .enter().append("g")
+                .attr("class", "node") 
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));
             
-             node.append("circle")
-                 .attr("r", 5)
-                 .attr("fill", "steelblue")
-                 .attr("stroke", "#fff")
-                 .attr("stroke-width", 1.5);
-
-            node.append("text")
-                .attr("dy", -10) 
-                .attr("text-anchor", "middle") 
-                .text(d => d.label);   
+            // Append circle to each node
+            node.append("circle")
+                .attr("r", 5); // Set radius of the circle
             
+            // Append text to each node for labels
+            node.append("text")
+                .attr("dy", -10) // Adjust the position of the text relative to the circle
+                .attr("text-anchor", "middle") // Center the text horizontally
+                .text(d => d.label); // Set the text content to the node label
+             
             node.append("title")
                 .text(d => d.label);
 
